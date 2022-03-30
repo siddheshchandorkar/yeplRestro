@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
         android:paddingEnd="16dp"
+        android:paddingRight="16dp"
         android:paddingBottom="16dp"
         tools:context=".ui.MainActivity">
 
@@ -37,7 +38,7 @@
                     android:layout_height="100dp"
                     android:layout_margin="8dp"
                     android:scaleType="fitXY"
-                    android:src="@{vm.photoUrl}"/>
+                    android:src="@{vm.photoUrl}" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -46,25 +47,89 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:text="@{vm.title}"
             android:textColor="@color/black"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cv_photo"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_review_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{vm.reviewCount}"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/rb_rating"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toEndOf="@id/rb_rating"
+            app:layout_constraintTop_toTopOf="@id/rb_rating" />
+
         <androidx.appcompat.widget.AppCompatRatingBar
+            android:id="@+id/rb_rating"
             style="@style/Widget.AppCompat.RatingBar.Indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:numStars="5"
+            android:rating="@{vm.rating}"
+            app:layout_constraintStart_toEndOf="@id/cv_photo"
+            app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_address"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:numStars="5"
-            android:rating="@{vm.rating}"
+            android:layout_marginTop="4dp"
+            android:text="@{vm.address}"
+            android:textColor="@color/black"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cv_photo"
-            app:layout_constraintTop_toBottomOf="@id/tv_title" />
+            app:layout_constraintTop_toBottomOf="@id/rb_rating" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_phone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="2dp"
+            android:text="@{vm.phone}"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cv_photo"
+            app:layout_constraintTop_toBottomOf="@id/tv_address" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@{vm.distance}"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_phone" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:text="@{vm.price}"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/cv_photo"
+            app:layout_constraintTop_toBottomOf="@id/tv_phone" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
