@@ -36,5 +36,9 @@ class Keys {
         const val KEY_PHONE = "phone"
         const val KEY_DISPLAY_PHONE = "display_phone"
         const val KEY_DISTANCE = "distance"
+        const val KEY_OFFSET = "offset"
+        const val KEY_CODE = "code"
+        const val KEY_DESCRIPTION = "description"
+        const val KEY_ERROR = "error"
     }
 }

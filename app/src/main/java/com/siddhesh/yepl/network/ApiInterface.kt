@@ -15,7 +15,8 @@ interface ApiInterface {
         @Query(Keys.KEY_LOCATION) location: String,
         @Query(Keys.KEY_RADIUS) radius: Int,
         @Query(Keys.KEY_SORT_BY) sortBy: String,
-        @Query(Keys.KEY_LIMIT) limit: Int
+        @Query(Keys.KEY_LIMIT) limit: Int,
+        @Query(Keys.KEY_OFFSET) offset: Int
     ): Call<SearchModel>
 
     @GET("v3/businesses/search")

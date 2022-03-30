@@ -21,9 +21,9 @@ data class SearchBusinessModel(
     @SerializedName(Keys.KEY_CATEGORIES)
     val categories: ArrayList<CategoryModel>? = null,
     @SerializedName(Keys.KEY_RATING)
-    val rating: Int? = null,
+    val rating: Float? = null,
     @SerializedName(Keys.KEY_COORDINATES)
-    val coordinates: ArrayList<CoordinateModel>? = null,
+    val coordinates: CoordinateModel? = null,
     @SerializedName(Keys.KEY_TRANSACTIONS)
     val transactions: ArrayList<String>? = null,
     @SerializedName(Keys.KEY_PRICE)

@@ -7,5 +7,7 @@ data class SearchModel(
     @SerializedName(Keys.KEY_BUSINESSES)
     val businesses: ArrayList<SearchBusinessModel>? = null,
     @SerializedName(Keys.KEY_TOTAL)
-    val total: Long? = null
+    val total: Long? = null,
+    @SerializedName(Keys.KEY_ERROR)
+    val error: ErrorModel? = null
 )

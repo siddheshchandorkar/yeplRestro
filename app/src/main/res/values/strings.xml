@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Yepl Restro</string>
+    <string name="search_restaurants_by_city">Search Restaurants By City</string>
+    <string name="radius_selector">Radius Selector</string>
+    <string name="_100_m">100 M</string>
+    <string name="_5_km">5 KM</string>
 </resources>
