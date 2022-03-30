@@ -6,13 +6,13 @@
     <data>
         <variable
             name="vm"
-            type="com.siddhesh.yepl.MainActivityViewModel" />
+            type="com.siddhesh.yepl.ui.MainActivityViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
-        tools:context=".MainActivity">
+        tools:context=".ui.MainActivity">
 
         <EditText
             android:id="@+id/et_search"
