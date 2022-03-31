@@ -1,6 +1,5 @@
 package com.siddhesh.yepl.ui
 
-import android.opengl.ETC1.isValid
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -72,7 +71,6 @@ class MainActivityViewModel : ViewModel() {
     var scrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
-
             if (!isApiLoading.value!!) {
                 val totalItemCount: Int = recyclerView.layoutManager!!.itemCount
                 val lastVisibleItem: Int =
@@ -83,7 +81,6 @@ class MainActivityViewModel : ViewModel() {
                 }
             }
         }
-
     }
 
     fun reset() {
@@ -96,7 +93,7 @@ class MainActivityViewModel : ViewModel() {
     }
 
     fun callSearchApi(locationName: String, offSetValue: Int) {
-        if(isValidated()){
+        if (isValidated()) {
             isApiLoading.value = true
             val apiServices = ApiClient.client.create(ApiInterface::class.java)
             val call =
@@ -160,17 +157,17 @@ class MainActivityViewModel : ViewModel() {
     }
 
     private fun isValidated(): Boolean {
+        isApiLoading.value = false
+        isRefreshing.value = false
+        isLoadingMore.value = false
         if (reachMax.value!!) {
             reachMax.value = true
             showToast.value = "Reached Max Results"
-            isApiLoading.value = false
-            isRefreshing.value=false
             return false
-        }else if(TextUtils.isEmpty(searchText.value)){
-            isRefreshing.value=false
+        } else if (TextUtils.isEmpty(searchText.value)) {
             showToast.value = "Please Enter Correct City Name"
             return false
         }
-            return true
+        return true
     }
 }
