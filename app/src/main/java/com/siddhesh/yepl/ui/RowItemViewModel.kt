@@ -10,23 +10,24 @@ class RowItemViewModel(searchBusinessModel: SearchBusinessModel) : ViewModel() {
     var title = MutableLiveData<String>(searchBusinessModel.name)
     var transactions = MutableLiveData<String>()
     var rating = MutableLiveData<Float>(searchBusinessModel.rating)
+    var ratingCount = MutableLiveData<String>(searchBusinessModel.rating.toString())
     var reviewCount = MutableLiveData<String>("("+searchBusinessModel.reviewCount.toString()+")")
     var address = MutableLiveData<String>(
         searchBusinessModel.location!!.displayAddress.toString().replace("[", "").replace("]", "")
     )
-    var phone = MutableLiveData<String>(searchBusinessModel.phone)
+    var isClosed = MutableLiveData<Boolean>(searchBusinessModel.isClosed)
     var price = MutableLiveData<String>().apply {
         value = if (!TextUtils.isEmpty(searchBusinessModel.price)) {
-            "Price : ${searchBusinessModel.price}"
+            " ${searchBusinessModel.price} "
         } else {
             ""
         }
     }
     var distance = MutableLiveData<String>().apply {
         value = if (searchBusinessModel.distance!! <= 1000) {
-            String.format("%.2f m.", searchBusinessModel.distance)
+            String.format("%.2f Meter.", searchBusinessModel.distance)
         } else {
-            String.format("%.2f km.", searchBusinessModel.distance / 1000)
+            String.format("%.2f KM.", searchBusinessModel.distance / 1000)
         }
     }
 

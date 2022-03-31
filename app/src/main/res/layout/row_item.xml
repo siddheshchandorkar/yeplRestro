@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.text.TextUtils"/>
+        <import type="android.view.View"/>
         <variable
             name="vm"
             type="com.siddhesh.yepl.ui.RowItemViewModel" />
@@ -62,21 +64,35 @@
             android:text="@{vm.reviewCount}"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@id/rb_rating"
+            app:layout_constraintBottom_toBottomOf="@id/tv_rating"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toEndOf="@id/rb_rating"
-            app:layout_constraintTop_toTopOf="@id/rb_rating" />
+            app:layout_constraintTop_toTopOf="@id/tv_rating" />
 
         <androidx.appcompat.widget.AppCompatRatingBar
             android:id="@+id/rb_rating"
-            style="@style/Widget.AppCompat.RatingBar.Indicator"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginStart="5dp"
+            android:numStars="5"
+            android:foregroundGravity="center"
+            android:rating="@{vm.rating}"
+            app:layout_constraintStart_toEndOf="@id/tv_rating"
+            app:layout_constraintBottom_toBottomOf="@id/tv_rating"
+            app:layout_constraintTop_toTopOf="@id/tv_rating" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:text="@{vm.ratingCount}"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:background="@drawable/bg_rating"
             android:layout_marginTop="4dp"
-            android:numStars="5"
-            android:rating="@{vm.rating}"
+            android:layout_marginStart="16dp"
             app:layout_constraintStart_toEndOf="@id/cv_photo"
             app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
@@ -84,9 +100,11 @@
             android:id="@+id/tv_address"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="14dp"
             android:layout_marginTop="4dp"
             android:text="@{vm.address}"
+            android:visibility="@{TextUtils.isEmpty(vm.address)? View.GONE:View.VISIBLE}"
+            android:drawableStart="@drawable/ic_restaunt_location"
             android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -94,15 +112,14 @@
             app:layout_constraintTop_toBottomOf="@id/rb_rating" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_phone"
-            android:layout_width="0dp"
+            android:id="@+id/tv_is_open"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="2dp"
-            android:text="@{vm.phone}"
-            android:textColor="@color/black"
+            android:layout_marginTop="4dp"
+            android:text="@{vm.isClosed? @string/closed : @string/open}"
+            android:textColor="@{vm.isClosed? @color/red : @color/green}"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cv_photo"
             app:layout_constraintTop_toBottomOf="@id/tv_address" />
 
@@ -114,21 +131,11 @@
             android:text="@{vm.distance}"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_phone" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:text="@{vm.price}"
-            android:textColor="@color/black"
-            android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/cv_photo"
-            app:layout_constraintTop_toBottomOf="@id/tv_phone" />
+            android:gravity="end"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_address" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

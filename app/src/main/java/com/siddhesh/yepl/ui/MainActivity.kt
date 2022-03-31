@@ -5,6 +5,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -30,6 +31,10 @@ class MainActivity : AppCompatActivity() {
         mViewModel.isRefreshing.observe(this, {
             mBinding.srlRestro.isRefreshing=it
         })
+
+        supportActionBar!!.setDisplayShowHomeEnabled(true)
+        supportActionBar!!.setLogo(R.drawable.ic_yepl_round)
+        supportActionBar!!.setDisplayUseLogoEnabled(true);
 
         mBinding.rsRadius.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: Slider) {

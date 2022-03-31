@@ -17,6 +17,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainActivityViewModel : ViewModel() {
+    private val term = "restaurants"
+    private val sortBy = "distance"
     var offset = MutableLiveData(0)
     var limit = MutableLiveData(20)
     var radius = MutableLiveData(100)
@@ -66,15 +68,16 @@ class MainActivityViewModel : ViewModel() {
 
     }
 
-    var scrollListener = object : RecyclerView.OnScrollListener(){
+    var scrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
 
             if (!isApiLoading.value!!) {
                 val totalItemCount: Int = recyclerView.layoutManager!!.itemCount
-                val lastVisibleItem: Int = (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                if (!reachMax.value!! &&  totalItemCount <= lastVisibleItem + limit.value!!) {
-                   isLoadingMore.value=true
+                val lastVisibleItem: Int =
+                    (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                if (!reachMax.value!! && totalItemCount <= lastVisibleItem + limit.value!!) {
+                    isLoadingMore.value = true
                     callSearchApi(searchText.value!!, offset.value!!)
                 }
             }
@@ -92,15 +95,15 @@ class MainActivityViewModel : ViewModel() {
     }
 
     fun callSearchApi(locationName: String, offSetValue: Int) {
-        isApiLoading.value=true
+        isApiLoading.value = true
         if (!reachMax.value!!) {
             val apiServices = ApiClient.client.create(ApiInterface::class.java)
             val call =
                 apiServices.getRestaurants(
-                    "restaurants",
+                    term,
                     locationName,
                     radius.value!!,
-                    "distance",
+                    sortBy,
                     limit.value!!,
                     offSetValue
                 )
@@ -119,16 +122,18 @@ class MainActivityViewModel : ViewModel() {
                                 rowItemViewModelAl.add(RowItemViewModel(searchBusinessModel))
                                 restaurantListAdapter.setData(rowItemViewModelAl)
                             }
-                            if (offset.value!! < (searchModel.total!!-limit.value!!)) {
-                                offset.value =offSetValue +limit.value!!
+                            if (offset.value!! < (searchModel.total!! - limit.value!!)) {
+                                offset.value = offSetValue + limit.value!!
                                 if (rowItemViewModelAl.isNotEmpty()) {
                                     showToast.value = "Restaurants Found"
                                 } else {
                                     showToast.value = "No Restaurants Found"
                                 }
                             } else {
-                                reachMax.value = true
-                                showToast.value = "Reached Max Results"
+                                if (searchModel.total != 0L) {
+                                    reachMax.value = true
+                                    showToast.value = "Reached Max Results"
+                                }
                             }
 
                         } ?: {
