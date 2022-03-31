@@ -6,6 +6,8 @@ import android.text.TextWatcher
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.siddhesh.yepl.models.SearchModel
 import com.siddhesh.yepl.network.ApiClient
@@ -21,6 +23,8 @@ class MainActivityViewModel : ViewModel() {
     var radiusSelected = MutableLiveData("100 M")
     var searchText = MutableLiveData<String>()
     var isRefreshing = MutableLiveData(false)
+    var isApiLoading = MutableLiveData(false)
+    var isLoadingMore = MutableLiveData(false)
     var reachMax = MutableLiveData(false)
     var showToast = MutableLiveData<String>()
     var rowItemViewModelAl = ArrayList<RowItemViewModel>()
@@ -62,8 +66,25 @@ class MainActivityViewModel : ViewModel() {
 
     }
 
+    var scrollListener = object : RecyclerView.OnScrollListener(){
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+
+            if (!isApiLoading.value!!) {
+                val totalItemCount: Int = recyclerView.layoutManager!!.itemCount
+                val lastVisibleItem: Int = (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                if (!reachMax.value!! &&  totalItemCount <= lastVisibleItem + limit.value!!) {
+                   isLoadingMore.value=true
+                    callSearchApi(searchText.value!!, offset.value!!)
+                }
+            }
+        }
+
+    }
+
     fun reset() {
         reachMax.value = false
+        isLoadingMore.value = false
         isRefreshing.value = true
         offset.value = 0
         rowItemViewModelAl.clear()
@@ -71,6 +92,7 @@ class MainActivityViewModel : ViewModel() {
     }
 
     fun callSearchApi(locationName: String, offSetValue: Int) {
+        isApiLoading.value=true
         if (!reachMax.value!!) {
             val apiServices = ApiClient.client.create(ApiInterface::class.java)
             val call =
@@ -97,29 +119,33 @@ class MainActivityViewModel : ViewModel() {
                                 rowItemViewModelAl.add(RowItemViewModel(searchBusinessModel))
                                 restaurantListAdapter.setData(rowItemViewModelAl)
                             }
-                            if (offset.value!! < searchModel.total!!) {
-                                offset.value = +limit.value!!
+                            if (offset.value!! < (searchModel.total!!-limit.value!!)) {
+                                offset.value =offSetValue +limit.value!!
+                                if (rowItemViewModelAl.isNotEmpty()) {
+                                    showToast.value = "Restaurants Found"
+                                } else {
+                                    showToast.value = "No Restaurants Found"
+                                }
                             } else {
                                 reachMax.value = true
+                                showToast.value = "Reached Max Results"
                             }
-                            if (rowItemViewModelAl.isNotEmpty()) {
-                                showToast.value = "Restaurants Found"
-                            } else {
-                                showToast.value = "No Restaurants Found"
-                            }
+
                         } ?: {
                             showToast.value = "No Restaurants Found"
                         }
                     }
-
-                    Log.d("MainActivityViewModel", "onResponse: " + offset.value)
                     isRefreshing.value = false
+                    isLoadingMore.value = false
+                    isApiLoading.value = false
                 }
 
                 override fun onFailure(call: Call<SearchModel>, t: Throwable) {
                     Log.d("MainActivityViewModel", "onFailure: ")
                     isRefreshing.value = false
-                    showToast.value = "Reached Max Results"
+                    showToast.value = "Facing Issues To Fetch Restaurants"
+                    isLoadingMore.value = false
+                    isApiLoading.value = false
 
                 }
 
@@ -128,6 +154,7 @@ class MainActivityViewModel : ViewModel() {
         } else {
             reachMax.value = true
             showToast.value = "Reached Max Results"
+            isApiLoading.value = false
         }
 
     }

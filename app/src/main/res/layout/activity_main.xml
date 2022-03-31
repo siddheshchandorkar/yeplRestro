@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="vm"
             type="com.siddhesh.yepl.ui.MainActivityViewModel" />
@@ -54,6 +56,7 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_search" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -61,10 +64,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:text="@{vm.radiusSelected}"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:text="@{vm.radiusSelected}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_search" />
 
@@ -72,17 +75,18 @@
             android:id="@+id/rs_radius"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:stepSize="100"
             android:valueFrom="100"
             android:valueTo="5000"
-            android:stepSize="100"
             app:layout_constraintTop_toBottomOf="@id/tv_title_slider" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_from"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/_100_m"
             android:textColor="@color/black"
             android:textSize="14sp"
-            android:text="@string/_100_m"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rs_radius" />
 
@@ -91,9 +95,9 @@
             android:id="@+id/tv_to"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/_5_km"
             android:textColor="@color/black"
             android:textSize="14sp"
-            android:text="@string/_5_km"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rs_radius" />
 
@@ -107,10 +111,24 @@
             app:layout_constraintTop_toBottomOf="@id/tv_from"
             app:refreshListener="@{vm.onRefreshListener}">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcv_restaurants"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcv_restaurants"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                   android:visibility="@{vm.isLoadingMore ? View.VISIBLE:View.GONE}" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

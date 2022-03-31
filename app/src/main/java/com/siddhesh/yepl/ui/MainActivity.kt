@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         mBinding.rcvRestaurants.layoutManager=LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         mBinding.rcvRestaurants.adapter=mViewModel.restaurantListAdapter
         mBinding.rcvRestaurants.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-
+        mBinding.rcvRestaurants.addOnScrollListener(mViewModel.scrollListener)
         mViewModel.isRefreshing.observe(this, {
             mBinding.srlRestro.isRefreshing=it
         })
