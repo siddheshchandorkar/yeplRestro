@@ -20,8 +20,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_search"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:hint="@string/search_restaurants_by_city"
             app:layout_constraintEnd_toStartOf="@id/ib_current_location"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -30,7 +32,6 @@
                 android:id="@+id/et_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/search_restaurants_by_city"
                 android:text="@={vm.searchText}"
                 app:textWatcher="@{vm.textWatcher}" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -40,8 +41,8 @@
             android:id="@+id/ib_current_location"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:visibility="gone"
             android:src="@drawable/ic_my_location"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/til_search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/til_search" />
@@ -122,11 +123,11 @@
                 <ProgressBar
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:visibility="@{vm.isLoadingMore ? View.VISIBLE:View.GONE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:background="@color/white"
-                   android:visibility="@{vm.isLoadingMore ? View.VISIBLE:View.GONE}" />
+                    app:layout_constraintStart_toStartOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -1,5 +1,6 @@
 package com.siddhesh.yepl.ui
 
+import android.opengl.ETC1.isValid
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -95,8 +96,8 @@ class MainActivityViewModel : ViewModel() {
     }
 
     fun callSearchApi(locationName: String, offSetValue: Int) {
-        isApiLoading.value = true
-        if (!reachMax.value!!) {
+        if(isValidated()){
+            isApiLoading.value = true
             val apiServices = ApiClient.client.create(ApiInterface::class.java)
             val call =
                 apiServices.getRestaurants(
@@ -155,12 +156,21 @@ class MainActivityViewModel : ViewModel() {
                 }
 
             })
+        }
+    }
 
-        } else {
+    private fun isValidated(): Boolean {
+        if (reachMax.value!!) {
             reachMax.value = true
             showToast.value = "Reached Max Results"
             isApiLoading.value = false
+            isRefreshing.value=false
+            return false
+        }else if(TextUtils.isEmpty(searchText.value)){
+            isRefreshing.value=false
+            showToast.value = "Please Enter Correct City Name"
+            return false
         }
-
+            return true
     }
 }
